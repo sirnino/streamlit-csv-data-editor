@@ -9,13 +9,15 @@ title = "CSV Data Editor"
 R.init(title=title)
 R.render_sidebar()
 
-uploaded_file = R.render_header(title=title)
+uploaded_file, separator, submitted = R.render_header(title=title)
 
-if uploaded_file:
-    df = pd.read_csv(uploaded_file)
+if submitted and uploaded_file:
+    df = pd.read_csv(uploaded_file, sep=separator)
     row_count = D.get_row_count(df)
     categories = D.get_types_dict(df)
     
     R.render_metrics(uploaded_file.name, row_count, categories)
     
-    R.render_data(df, f"edited_{uploaded_file.name}")
+    #R.render_data(df, f"edited_{uploaded_file.name}")
+    R.render_chart_area(df)
+    
